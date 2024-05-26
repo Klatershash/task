@@ -1,0 +1,21 @@
+body{
+    margin: 0;
+    padding: 0
+}
+.menu{
+    display: flex;
+    justify-content: center
+}
+.menu li{
+    display: block;
+    margin: 5px
+}
+.menu li a{
+    padding: 7px;
+    text-decoration: none;
+    background-color: #000;
+    color: #fff
+}
+.content, .footer{
+    text-align: center
+}

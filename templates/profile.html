@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Личный кабинет</h2>
+<hr />
+{% if suc != '' %}
+<p align='center'>{{suc}}</p>
+{% endif %}
+{% if error != '' %}
+<p align='center'>{{error}}</p>
+{% endif %}
+<p>Ваш лимит на добавления задач {{limit}}</p>
+<h3>Добавить задачу</h3>
+<form method="post" >
+    <p>
+        <label for="name">Название задачи:</label>
+        <input type="text" name="title" id="name">
+    </p>
+      <p>
+        <label for="description">Описание задачи:</label>
+        <input type="text" name="description" id="description">
+    </p>
+      <p>
+        <label for="date_end">Дата и вермя окончания задачи:</label>
+        <input type="datetime-local" name="date_end" id="date_end">
+    </p>
+    <p>
+        <button>Добавить задачу</button>
+    </p>
+</form>
+<table border="1" align="center">
+    <tr>
+        <th>Название задачи</th>
+        <th>Статус</th>
+        <th>Описание</th>
+        <th>Дата начала</th>
+        <th>Дата завершения</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for task in tasks %}
+        {% if task[2] == 'Просрочена' %}
+        <tr style="background-color: red">
+            {% elif task[2] == 'Завершен' %}
+             <tr style="background-color: green">
+            {% else %}
+    <tr style="background-color: orange">
+            {% endif %}
+            <td>
+                {{task[1]}}
+            </td>
+             <td>
+                {{task[2]}}
+            </td>
+             <td>
+                {{task[3]}}
+            </td>
+             <td>
+                {{task[4]}}
+            </td>
+             <td>
+                {{task[6]}}
+            </td>
+            <td>
+                 {% if task[2] == 'Завершен' %}
+
+                {% else %}
+                <form method="post" action="/action">
+                    <input type="hidden" name="id_task" value="{{task[0]}}">
+                    <button name="finish">Завершить задачу</button><br />
+                    <button name="delete">Удалить задачу</button>
+                </form>
+                {% endif %}
+            </td>
+    <td>
+        {{task[-1]}}
+    </td>
+    <td>
+        <for>
+             {% if task[2] == 'Завершен' %}
+                <textarea name="answer" readonly>{{task[-1]}}</textarea>
+            {% else %}
+                <form action="edit_anwer" method="post">
+                    <input type="hidden" name="id_task" value="{{task[0]}}">
+                    <textarea name="answer">{{task[-1]}}</textarea><br />
+                    <button type="submit">Отправить</button>
+                </form>
+            {% endif %}
+        </for>
+    </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
